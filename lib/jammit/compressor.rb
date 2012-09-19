@@ -82,7 +82,7 @@ module Jammit
       if (jst_paths = paths.grep(Jammit.template_extension_matcher)).empty?
         js = concatenate(paths)
       else
-        js = concatenate(paths - jst_paths) + compile_jst(jst_paths)
+        js = compile_jst(jst_paths) + concatenate(paths - jst_paths)
       end
       Jammit.compress_assets ? @js_compressor.compress(js) : js
     end
