@@ -159,12 +159,19 @@ module Jammit
         packages[name]         = {}
         paths                  = globs.flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
         packages[name][:paths] = paths
+=begin
         if !paths.grep(Jammit.template_extension_matcher).empty?
           packages[name][:urls] = paths.grep(JS_EXTENSION).map {|path| path.sub(path_to_url, '') }
           packages[name][:urls] += [Jammit.asset_url(name, Jammit.template_extension)]
         else
           packages[name][:urls] = paths.map {|path| path.sub(path_to_url, '') }
         end
+=end
+        jst_paths              = paths.grep(Jammit.template_extension_matcher)
+        fjst_idx               = paths.index(jst_paths.shift)
+      
+        packages[name][:urls]           = (paths - jst_paths).map {|path| path.sub(PATH_TO_URL, '') }
+        packages[name][:urls][fjst_idx] = Jammit.asset_url(name, Jammit.template_extension) if fjst_idx
       end
       packages
     end
