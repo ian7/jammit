@@ -170,7 +170,7 @@ module Jammit
         jst_paths              = paths.grep(Jammit.template_extension_matcher)
         fjst_idx               = paths.index(jst_paths.shift)
       
-        packages[name][:urls]           = (paths - jst_paths).map {|path| path.sub(PATH_TO_URL, '') }
+        packages[name][:urls]           = (paths - jst_paths).map {|path| path.sub(path_to_url, '') }
         packages[name][:urls][fjst_idx] = Jammit.asset_url(name, Jammit.template_extension) if fjst_idx
       end
       packages
